@@ -1,7 +1,11 @@
 
 import org.junit.jupiter.api.Test;
 import project.Sudoku;
-import project.SudokuGenerator;
+import project.SudokuValidator;
+import project.decorator.BaseSudoku;
+import project.decorator.SudokuGenerator;
+import project.decorator.SwapDecorator;
+import project.decorator.TransposeDecorator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,10 +16,25 @@ import static java.lang.Math.floor;
 import static java.lang.Math.random;
 import static java.util.stream.IntStream.range;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SudokuGeneratorTest {
 
-    SudokuGenerator sudokuGenerator = new SudokuGenerator();
+    int[][] grid =
+            {
+                    {1, 2, 3, 4, 5, 6, 7, 8, 9},
+                    {4, 5, 6, 7, 8, 9, 1, 2, 3},
+                    {7, 8, 9, 1, 2, 3, 4, 5, 6},
+                    {2, 3, 4, 5, 6, 7, 8, 9, 1},
+                    {5, 6, 7, 8, 9, 1, 2, 3, 4},
+                    {8, 9, 1, 2, 3, 4, 5, 6, 7},
+                    {3, 4, 5, 6, 7, 8, 9, 1, 2},
+                    {6, 7, 8, 9, 1, 2, 3, 4, 5},
+                    {9, 1, 2, 3, 4, 5, 6, 7, 8},
+            };
+
+    Sudoku sudoku = new Sudoku(grid);
+    SudokuValidator validator = new SudokuValidator(sudoku);
 
     @Test
     void testFloorWithRandom() {
@@ -45,25 +64,6 @@ public class SudokuGeneratorTest {
         Collections.rotate(test, 3);
         System.out.println("test = " + test);
         assertEquals(List.of(7, 8, 9, 1, 2, 3, 4, 5, 6), test);
-    }
-
-    @Test
-    void testBaseGridWithoutShuffle() {
-        int [][] array =
-                {
-                    {1, 2, 3, 4, 5, 6, 7, 8, 9},
-                    {4, 5, 6, 7, 8, 9, 1, 2, 3},
-                    {7, 8, 9, 1, 2, 3, 4, 5, 6},
-                    {2, 3, 4, 5, 6, 7, 8, 9, 1},
-                    {5, 6, 7, 8, 9, 1, 2, 3, 4},
-                    {8, 9, 1, 2, 3, 4, 5, 6, 7},
-                    {3, 4, 5, 6, 7, 8, 9, 1, 2},
-                    {6, 7, 8, 9, 1, 2, 3, 4, 5},
-                    {9, 1, 2, 3, 4, 5, 6, 7, 8},
-                };
-        Sudoku expected = new Sudoku(array);
-        Sudoku actual = sudokuGenerator.generate();
-        assertEquals(expected, actual);
     }
 
     @Test
@@ -118,37 +118,48 @@ public class SudokuGeneratorTest {
         final double d = (double)1 / 2;
     }
 
+   @Test
+    void testBaseSudoku() {
+       SudokuGenerator sudokuGenerator = new BaseSudoku();
+       checkSudokuValidation(sudokuGenerator);
+   }
+
+   @Test
+   void testTransposeAndBaseSudoku() {
+       SudokuGenerator sudokuGenerator = new TransposeDecorator(new BaseSudoku());
+       checkSudokuValidation(sudokuGenerator);
+   }
+
     @Test
-    void testSwapRandomRowsInRandomArea() {
+    void testSwapAndBaseSudoku() {
+        SudokuGenerator sudokuGenerator = new SwapDecorator(new BaseSudoku());
+        checkSudokuValidation(sudokuGenerator);
+    }
 
-        int [][] grid =
-                {
-                        {1, 2, 3, 4, 5, 6, 7, 8, 9},
-                        {4, 5, 6, 7, 8, 9, 1, 2, 3},
-                        {7, 8, 9, 1, 2, 3, 4, 5, 6},
-                        {2, 3, 4, 5, 6, 7, 8, 9, 1},
-                        {5, 6, 7, 8, 9, 1, 2, 3, 4},
-                        {8, 9, 1, 2, 3, 4, 5, 6, 7},
-                        {3, 4, 5, 6, 7, 8, 9, 1, 2},
-                        {6, 7, 8, 9, 1, 2, 3, 4, 5},
-                        {9, 1, 2, 3, 4, 5, 6, 7, 8},
-                };
+    @Test
+    void testSwapTransposeBaseSudoku() {
+        SudokuGenerator sudokuGenerator = new SwapDecorator(
+                new TransposeDecorator(
+                        new BaseSudoku()));
+        checkSudokuValidation(sudokuGenerator);
+    }
 
-        Sudoku sudoku = new Sudoku(grid);
+    private void checkSudokuValidation(SudokuGenerator sudokuGenerator) {
+        Sudoku sudoku = sudokuGenerator.generate();
+        SudokuValidator validator = new SudokuValidator(sudoku);
+        DIS(sudoku);
+        assertTrue(validator.check());
+    }
 
-        sudoku.swapRandomRowsInRandomArea();
-//        sudoku.swapRandomRowsInRandomArea();
-//        sudoku.swapRandomRowsInRandomArea();
-//        sudoku.swapRandomRowsInRandomArea();
-//        sudoku.swapRandomRowsInRandomArea();
-
-
-//        for (int i = 0; i < 9; i++) {
-//            System.out.println();
-//            for (int j = 0; j < 9; j++) {
-//                System.out.print(grid[i][j] + " ");
-//            }
-//        }
+    private void DIS(Sudoku sudoku) {
+        System.out.println("---------");
+        int [][] grid = sudoku.getGrid();
+        for (int i = 0; i < 9; i++) {
+            System.out.println();
+            for (int j = 0; j < 9; j++) {
+                System.out.print(grid[i][j] + " ");
+            }
+        }
     }
 
 }

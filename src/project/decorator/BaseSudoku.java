@@ -1,4 +1,6 @@
-package project;
+package project.decorator;
+
+import project.Sudoku;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,18 +11,16 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.range;
 import static java.util.stream.IntStream.rangeClosed;
 
-public class SudokuGenerator {
+public class BaseSudoku implements SudokuGenerator {
 
     public Sudoku generate() {
-        Sudoku sudoku = createShuffledBaseGrid();
-        sudoku.transpose();
-        return sudoku;
+        return new Sudoku(createShuffledBaseGrid());
     }
 
-    public Sudoku createShuffledBaseGrid() {
+    private int[][] createShuffledBaseGrid() {
         List<Integer> baseList = rangeClosed(1, 9).boxed().collect(toList());
         shuffle(baseList);
-        return new Sudoku(createBaseGrid(baseList));
+        return createBaseGrid(baseList);
     }
 
     private int[][] createBaseGrid(List<Integer> baseList) {
@@ -37,6 +37,4 @@ public class SudokuGenerator {
             return 5;
         return 6;
     }
-
-
 }
