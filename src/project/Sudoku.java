@@ -28,6 +28,49 @@ public class Sudoku {
                 .toArray(int[][]::new);
     }
 
+
+    public void swapRandomRowsInRandomArea() {
+
+        System.out.println();
+        System.out.println("--------");
+        System.out.println();
+
+        for (int i = 0; i < 9; i++) {
+            System.out.println();
+            for (int j = 0; j < 9; j++) {
+                System.out.print(grid[i][j] + " ");
+            }
+        }
+        System.out.println();
+        System.out.println("--------");
+        System.out.println();
+
+
+        Random random = new Random();
+        int area = random.nextInt(3);
+        int row1 = random.nextInt(3);
+        int row2 = random.nextInt(3);
+        while (row1 == row2)
+            row2 = random.nextInt(3);
+        row1 = area * 3 + row1;
+        row2 = area * 3 + row2;
+
+        int[] temp = grid[row1];
+        grid[row1] = grid[row2];
+        grid[row2] = temp;
+
+        System.out.println("row1 = " + row1);
+        System.out.println("row2 = " + row2);
+        for (int i = 0; i < 9; i++) {
+            System.out.println();
+            for (int j = 0; j < 9; j++) {
+                System.out.print(grid[i][j] + " ");
+            }
+        }
+    }
+
+
+
     public int[][] getGrid() {
         return grid;
     }

@@ -1,4 +1,3 @@
-package test;
 
 import org.junit.jupiter.api.Test;
 import project.Sudoku;
@@ -69,9 +68,9 @@ public class SudokuGeneratorTest {
 
     @Test
     void testRandom() {
-        Random random = new Random();
+        Random random = new Random(1);
         for (int i = 0; i < 10; i++)
-            System.out.println(random.nextInt(2));
+            System.out.println(random.nextInt(3));
     }
 
     @Test
@@ -117,6 +116,39 @@ public class SudokuGeneratorTest {
     @Test
     void test2() {
         final double d = (double)1 / 2;
+    }
+
+    @Test
+    void testSwapRandomRowsInRandomArea() {
+
+        int [][] grid =
+                {
+                        {1, 2, 3, 4, 5, 6, 7, 8, 9},
+                        {4, 5, 6, 7, 8, 9, 1, 2, 3},
+                        {7, 8, 9, 1, 2, 3, 4, 5, 6},
+                        {2, 3, 4, 5, 6, 7, 8, 9, 1},
+                        {5, 6, 7, 8, 9, 1, 2, 3, 4},
+                        {8, 9, 1, 2, 3, 4, 5, 6, 7},
+                        {3, 4, 5, 6, 7, 8, 9, 1, 2},
+                        {6, 7, 8, 9, 1, 2, 3, 4, 5},
+                        {9, 1, 2, 3, 4, 5, 6, 7, 8},
+                };
+
+        Sudoku sudoku = new Sudoku(grid);
+
+        sudoku.swapRandomRowsInRandomArea();
+//        sudoku.swapRandomRowsInRandomArea();
+//        sudoku.swapRandomRowsInRandomArea();
+//        sudoku.swapRandomRowsInRandomArea();
+//        sudoku.swapRandomRowsInRandomArea();
+
+
+//        for (int i = 0; i < 9; i++) {
+//            System.out.println();
+//            for (int j = 0; j < 9; j++) {
+//                System.out.print(grid[i][j] + " ");
+//            }
+//        }
     }
 
 }
