@@ -2,10 +2,10 @@
 import org.junit.jupiter.api.Test;
 import project.Sudoku;
 import project.SudokuValidator;
-import project.decorator.BaseSudoku;
-import project.decorator.SudokuGenerator;
-import project.decorator.SwapDecorator;
-import project.decorator.TransposeDecorator;
+import project.sudoku_decorators.BaseSudoku;
+import project.sudoku_decorators.SudokuGenerator;
+import project.sudoku_decorators.SwapDecorator;
+import project.sudoku_decorators.TransposeDecorator;
 
 import java.util.ArrayList;
 import java.util.Collections;

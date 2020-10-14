@@ -1,4 +1,4 @@
-package project.decorator;
+package project.sudoku_decorators;
 
 import project.Sudoku;
 
