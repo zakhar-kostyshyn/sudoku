@@ -29,11 +29,10 @@ public class SwapDecorator extends BaseDecorator {
     private int randomSwapIndex1;
     private int randomSwapIndex2;
 
-    private void randomIndexesForSwap() {
-        randomSwapIndex1 = random.nextInt(MAX_LINES);
-        randomSwapIndex2 = random.nextInt(MAX_LINES);
-        while (randomSwapIndex1 == randomSwapIndex2)
-            randomSwapIndex2 = random.nextInt(MAX_LINES);
+    private void initRandomIndexesForSwap() {
+        var twoRandomNumbers = random.ints(0, 3).distinct().limit(2).toArray();
+        randomSwapIndex1 = twoRandomNumbers[0];
+        randomSwapIndex2 = twoRandomNumbers[1];
     }
 
     private void swapRowAndColumnAreas() {
@@ -42,7 +41,7 @@ public class SwapDecorator extends BaseDecorator {
     }
 
     private void swapColumnAndRowLinesInArea(int area) {
-        randomIndexesForSwap();
+        initRandomIndexesForSwap();
         int swapLine1 = countLineFromAreaAndRandomIndex(area, randomSwapIndex1);
         int swapLine2 = countLineFromAreaAndRandomIndex(area, randomSwapIndex2);
         swapTwoColumnsAndTwoRows(swapLine1, swapLine2);
