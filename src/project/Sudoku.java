@@ -1,5 +1,8 @@
 package project;
 
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.IntStream.range;
+
 public class Sudoku {
 
     int [][] grid;
@@ -14,12 +17,11 @@ public class Sudoku {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < 9; i++) {
-            result.append("\n");
-            for (int j = 0; j < 9; j++)
-                result.append(grid[i][j]).append(" ");
-        }
-        return result.toString();
+        return range(0, 9)
+                .mapToObj(i -> range(0, 9)
+                        .mapToObj(j -> Integer.toString(grid[i][j]))
+                        .collect(joining(" "))
+                ).collect(joining("\n"));
     }
+
 }

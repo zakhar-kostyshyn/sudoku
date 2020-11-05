@@ -3,6 +3,13 @@ import org.junit.jupiter.api.Test;
 import project.Sudoku;
 import project.SudokuValidator;
 
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SudokuValidatorTest {
@@ -56,6 +63,5 @@ public class SudokuValidatorTest {
 
         assertFalse(simpleSudoku.check());
     }
-
 }
 

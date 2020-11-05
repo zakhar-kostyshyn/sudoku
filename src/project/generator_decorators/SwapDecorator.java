@@ -1,4 +1,4 @@
-package project.sudoku_decorators;
+package project.generator_decorators;
 
 import project.Sudoku;
 
@@ -21,7 +21,7 @@ public class SwapDecorator extends BaseDecorator {
     private int[][] swap() {
         for (int area = 0; area < MAX_LINES; area++) {
             swapRowAndColumnAreas();
-            swapColumnAndRowLinesInArea(area);
+            swapRandomColumnAndRowLinesInArea(area);
         }
         return baseGrid;
     }
@@ -30,17 +30,20 @@ public class SwapDecorator extends BaseDecorator {
     private int randomSwapIndex2;
 
     private void initRandomIndexesForSwap() {
-        var twoRandomNumbers = random.ints(0, 3).distinct().limit(2).toArray();
+        var twoRandomNumbers = random.ints(0, 3)
+                .distinct()
+                .limit(2)
+                .toArray();
         randomSwapIndex1 = twoRandomNumbers[0];
         randomSwapIndex2 = twoRandomNumbers[1];
     }
 
     private void swapRowAndColumnAreas() {
         for (int area = 0; area < MAX_LINES; area++)
-            swapColumnAndRowLinesInArea(area);
+            swapRandomColumnAndRowLinesInArea(area);
     }
 
-    private void swapColumnAndRowLinesInArea(int area) {
+    private void swapRandomColumnAndRowLinesInArea(int area) {
         initRandomIndexesForSwap();
         int swapLine1 = countLineFromAreaAndRandomIndex(area, randomSwapIndex1);
         int swapLine2 = countLineFromAreaAndRandomIndex(area, randomSwapIndex2);
